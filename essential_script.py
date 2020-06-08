@@ -42,7 +42,9 @@ import math
 
 class MultiCIFAR10(torchvision.datasets.CIFAR10):
   """Override torchvision CIFAR10 for multi-image management.
-     Similar class can be defined for other datasets (e.g. CIFAR100).
+  Similar class can be defined for other datasets (e.g. CIFAR100).
+  Given K total augmentations, it returns a list of lenght K with
+  different augmentations of the input mini-batch.
   """
   def __init__(self, K, **kwds):
     super().__init__(**kwds)
@@ -142,7 +144,7 @@ class RelationalReasoning(torch.nn.Module):
         # Using the 'cat' aggregation function by default
         pos_pair = torch.cat([features[index_1:index_1+size], 
                               features[index_2:index_2+size]], 1)
-        # Shuffle by rolling the mini-batch (negatives)
+        # Shuffle without collisions by rolling the mini-batch (negatives)
         neg_pair = torch.cat([
                      features[index_1:index_1+size], 
                      torch.roll(features[index_2:index_2+size], 
