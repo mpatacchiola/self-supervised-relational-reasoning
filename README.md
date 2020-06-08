@@ -2,6 +2,11 @@
 
 Official PyTorch implementation of the paper *"Self-Supervised Relational Reasoning for Representation Learning"*.
 
+
+<p align="center">
+  <img width="600" alt="self-supervised relational reasoning" src="./etc/model.png">
+</p>
+
 Essential code
 --------------
 
