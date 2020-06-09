@@ -13,8 +13,8 @@ Essential code
 
 Here, you can find the essential code of the method with full training pipeline: 
 
-- [single python script](./essential_script.py) stand-alone training script, it only requires PyTorch and Torchvision.
-- [Jupyter notebook](./essential_notebook.ipynb) with step-by-step explanation of the algorithm and linear-evaluation phase.
+- [stand-alone python script](./essential_script.py) the stand-alone training script, it only requires PyTorch and Torchvision.
+- [jupyter notebook](./essential_notebook.ipynb) step-by-step explanation of the code with both train and linear-evaluation phases.
 
 The essential code above, trains a self-supervised relation module on CIFAR-10 with a Conv4 backbone.
 The backbone is stored at the end of the training and can be used for other downstream tasks (e.g. classification, image retrieval).
