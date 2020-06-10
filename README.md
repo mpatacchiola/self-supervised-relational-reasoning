@@ -17,8 +17,7 @@ Here, you can find the essential code of the method with full training pipeline:
 - [jupyter notebook](./essential_notebook.ipynb) step-by-step explanation of the code with both train and linear-evaluation phases.
 
 The essential code above, trains a self-supervised relation module on CIFAR-10 with a Conv4 backbone.
-The backbone is stored at the end of the training and can be used for other downstream tasks (e.g. classification, image retrieval).
-This has been tested on `Ubuntu 18.04 LTS` with `Python 3.6` and `Pytorch 1.4`.
+The backbone is stored at the end of the training and can be used for other downstream tasks (e.g. classification, image retrieval). The GPU is not required for those examples. This has been tested on `Ubuntu 18.04 LTS` with `Python 3.6` and `Pytorch 1.4`.
 
 
 Code to reproduce the experiments
