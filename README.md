@@ -6,7 +6,7 @@ Official PyTorch implementation of the paper *"Self-Supervised Relational Reason
 
 
 <p align="center">
-  <img width="600" alt="self-supervised relational reasoning" src="./etc/model.png">
+  <img width="600" alt="self-supervised relational reasoning" src="./etc/model_with_caption.png">
 </p>
 
 
