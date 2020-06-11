@@ -1,11 +1,24 @@
 
 
-Official PyTorch implementation of the paper *"Self-Supervised Relational Reasoning for Representation Learning"*.
+Official PyTorch implementation of the paper *"Self-Supervised Relational Reasoning for Representation Learning"* [arxiv](https://arxiv.org/abs/2006.05849).
 
 
 <p align="center">
   <img width="600" alt="self-supervised relational reasoning" src="./etc/model.png">
 </p>
+
+
+Citation
+---------
+
+```
+@article{patacchiola2020self,
+  title={Self-Supervised Relational Reasoning for Representation Learning},
+  author={Patacchiola, Massimiliano and Storkey, Amos},
+  journal={arXiv preprint arXiv:2006.05849},
+  year={2020}
+}
+```
 
 Essential code
 --------------
