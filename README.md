@@ -1,6 +1,6 @@
 
 
-Official PyTorch implementation of the paper *"Self-Supervised Relational Reasoning for Representation Learning"* [[arxiv]](https://arxiv.org/abs/2006.05849)
+Official PyTorch implementation of the paper *"Self-Supervised Relational Reasoning for Representation Learning"*, Patacchiola, M., and Storkey, A., to appear in NeurIPS 2020 [[arxiv]](https://arxiv.org/abs/2006.05849)
 
 *Abstract*: In self-supervised learning, a system is tasked with achieving a surrogate objective by defining alternative targets on a set of unlabeled data. The aim is to build useful representations that can be used in downstream tasks, without costly manual annotation. In this work, we propose a novel self-supervised formulation of relational reasoning that allows a learner to bootstrap a signal from information implicit in unlabeled data. Training a relation head to discriminate how entities relate to themselves (intra-reasoning) and other entities (inter-reasoning), results in rich and descriptive representations in the underlying neural network backbone, which can be used in downstream tasks such as classification and image retrieval. We evaluate the proposed method following a rigorous experimental procedure, using standard datasets, protocols, and backbones. Self-supervised relational reasoning outperforms the best competitor in all conditions by an average 14% in accuracy, and the most recent state-of-the-art model by 3%. We link the effectiveness of the method to the maximization of a Bernoulli log-likelihood, which can be considered as a proxy for maximizing the mutual information, resulting in a more efficient objective with respect to the commonly used contrastive losses. 
 
@@ -13,7 +13,7 @@ Official PyTorch implementation of the paper *"Self-Supervised Relational Reason
 Citation
 ---------
 
-To appear in *"Advances in Neural Information Processing Systems (NeurIPS, 2020)"*, **Selected for spotlight (Top 3%)**
+To appear in *"Advances in Neural Information Processing Systems (NeurIPS, 2020)"*, **Spotlight (Top 3%)**
 
 
 ```
