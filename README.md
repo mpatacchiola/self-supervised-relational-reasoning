@@ -6,12 +6,15 @@ Official PyTorch implementation of the paper *"Self-Supervised Relational Reason
 
 
 <p align="center">
-  <img width="600" alt="self-supervised relational reasoning" src="./etc/model_with_caption.png">
+  <img width="550" alt="self-supervised relational reasoning" src="./etc/model_with_caption.png">
 </p>
 
 
 Citation
 ---------
+
+To appear in *"Advances in Neural Information Processing Systems (NeurIPS, 2020)"*, **Selected for spotlight (Top 3%)**
+
 
 ```
 @article{patacchiola2020self,
