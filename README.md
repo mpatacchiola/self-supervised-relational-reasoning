@@ -1,12 +1,14 @@
 
-Official PyTorch implementation of the paper *"Self-Supervised Relational Reasoning for Representation Learning"*, Patacchiola, M., and Storkey, A., to appear in *"Advances in Neural Information Processing Systems (NeurIPS, 2020)"*, **Spotlight (Top 3%)** [[arxiv]](https://arxiv.org/abs/2006.05849)
+Official PyTorch implementation of the paper:
+
+*"Self-Supervised Relational Reasoning for Representation Learning"* (2020), Patacchiola, M., and Storkey, A., *"Advances in Neural Information Processing Systems (NeurIPS)"*, **Spotlight (Top 3%)** [[arxiv]](https://arxiv.org/abs/2006.05849)
 
 
 ```
-@article{patacchiola2020self,
+@inproceedings{patacchiola2020self,
   title={Self-Supervised Relational Reasoning for Representation Learning},
   author={Patacchiola, Massimiliano and Storkey, Amos},
-  journal={arXiv preprint arXiv:2006.05849},
+  booktitle={Advances in Neural Information Processing Systems},
   year={2020}
 }
 ```
