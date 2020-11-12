@@ -21,8 +21,10 @@
 #SOFTWARE.
 
 #This is an essential implementation of the paper:
+#
 #"Self-Supervised Relational Reasoning for Representation Learning"
-#by Massimiliano Patacchiola and Amos Strokey.
+#Patacchiola M. and Strokey A., Advances in Neural Information 
+#Processing Systems (NeurIPS 2020, Spotlight).
 #
 #The code runs on CPU (porting on GPU is trivial in PyTorch) with the
 #hyper-parameters set in the main function. The script will download
@@ -31,8 +33,6 @@
 #At the end of the procedure the trained backbone is stored, and can be
 #used for downstream tasks (e.g. classification, image retrieval).
 #The code can be easily customized on other datasets and backbones.
-#
-#Please, cite the paper if you intend to use this code in your work.
 
 import torch
 import torchvision
