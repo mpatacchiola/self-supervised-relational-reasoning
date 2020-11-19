@@ -1,3 +1,16 @@
+#!/usr/bin/env python
+
+# The MIT License (MIT)
+# Copyright (c) 2020 Massimiliano Patacchiola
+# GitHub: https://github.com/mpatacchiola/self-supervised-relational-reasoning
+#
+# Implementation of the paper:
+# "Unsupervised representation learning by predicting image rotations.", Gidaris et al. (2018)
+# Paper: https://arxiv.org/abs/1803.07728
+
+import math
+import time
+
 from torch.optim import SGD, Adam
 import torch.nn.functional as F
 from torch import nn
@@ -5,9 +18,7 @@ import torch
 import torchvision
 import torchvision.datasets as dset
 import torchvision.transforms as transforms
-import math
 import numpy as np
-import time
 from utils import AverageMeter
 
 def _data_augmentation(images):
@@ -49,14 +60,7 @@ class Model(torch.nn.Module):
         loss_meter = AverageMeter()
         accuracy_meter = AverageMeter()
         for i, (data, _) in enumerate(train_loader):
-
             data, target = _data_augmentation(data)
-
-            #torchvision.utils.save_image(data, fp="./sample_rotationnet.png", nrow=4)
-            #print(data.shape)
-            #print(target.shape)
-            #stop
-
             if torch.cuda.is_available(): data, target = data.cuda(), target.cuda()
             self.optimizer.zero_grad()
             output = self.forward(data)
@@ -68,32 +72,13 @@ class Model(torch.nn.Module):
             correct = pred.eq(target.view_as(pred)).cpu().sum()
             accuracy = (100.0 * correct / float(len(target)))
             accuracy_meter.update(accuracy.item(), len(target))
-
         elapsed_time = time.time() - start_time
         print("Epoch [" + str(epoch) + "][" + str(i) + "/" + str(len(train_loader)) + "]" 
               + "[" + str(time.strftime("%H:%M:%S", time.gmtime(elapsed_time))) + "]"
               + " loss: " + str(loss_meter.avg) 
               + "; acc.: " + str(accuracy_meter.avg) )
         return loss_meter.avg, accuracy_meter.avg
-        
-    def test(self, test_loader):
-        self.feature_extractor.eval()
-        self.classifier.eval()
-        loss_meter = AverageMeter()
-        accuracy_meter = AverageMeter()
-        with torch.no_grad():
-            for data, _ in test_loader:
-                data, target = _data_augmentation(data)
-                if torch.cuda.is_available(): data, target = data.cuda(), target.cuda()
-                output = self.forward(data)
-                loss = self.ce(output, target)
-                loss_meter.update(loss.item(), len(target))
-                pred = output.argmax(-1)
-                correct = pred.eq(target.view_as(pred)).cpu().sum()
-                accuracy = (100.0 * correct / float(len(target))).item()
-                accuracy_meter.update(accuracy.item(), len(target))
-        return loss_meter.avg, accuracy_meter.avg
-       
+
     def save(self, file_path='./checkpoint.dat'):
         state_dict = self.classifier.state_dict()
         feature_extractor_state_dict = self.feature_extractor.state_dict()
