@@ -29,18 +29,18 @@ class Model(torch.nn.Module):
         super(Model, self).__init__()
 
         self.net = nn.Sequential(collections.OrderedDict([
-          ('feature_extractor', feature_extractor)
+          ("feature_extractor", feature_extractor)
         ]))
 
         self.head = nn.Sequential(collections.OrderedDict([
-          ('linear1',  nn.Linear(feature_extractor.feature_size, 256)),
-          ('bn1',      nn.BatchNorm1d(256)),
-          ('relu',     nn.LeakyReLU()),
-          ('linear2',  nn.Linear(256, 64)),
+          ("linear1",  nn.Linear(feature_extractor.feature_size, 256)),
+          ("bn1",      nn.BatchNorm1d(256)),
+          ("relu",     nn.LeakyReLU()),
+          ("linear2",  nn.Linear(256, 64)),
         ]))
 
-        self.optimizer = Adam([{'params': self.net.parameters(), 'lr': 0.001},
-                               {'params': self.head.parameters(), 'lr': 0.001}])
+        self.optimizer = Adam([{"params": self.net.parameters(), "lr": 0.001},
+                               {"params": self.head.parameters(), "lr": 0.001}])
 
     def return_loss_fn(self, x, t=0.5, eps=1e-8):
         # Taken from: https://github.com/pietz/simclr/blob/master/SimCLR.ipynb
@@ -77,29 +77,29 @@ class Model(torch.nn.Module):
             loss.backward()
             self.optimizer.step()
             if(i==0):
-                statistics_dict['batch_size'] = data.shape[0]
-                statistics_dict['tot_pairs'] = tot_pairs
+                statistics_dict["batch_size"] = data.shape[0]
+                statistics_dict["tot_pairs"] = tot_pairs
 
         elapsed_time = time.time() - start_time 
         print("Epoch [" + str(epoch) + "]"
                + "[" + str(time.strftime("%H:%M:%S", time.gmtime(elapsed_time))) + "]"
                + " loss: " + str(loss_meter.avg)
-               + "; batch-size: " + str(statistics_dict['batch_size'])
-               + "; tot-pairs: " + str(statistics_dict['tot_pairs']))
+               + "; batch-size: " + str(statistics_dict["batch_size"])
+               + "; tot-pairs: " + str(statistics_dict["tot_pairs"]))
                              
         return loss_meter.avg, -loss_meter.avg
 
-    def save(self, file_path='./checkpoint.dat'):
+    def save(self, file_path="./checkpoint.dat"):
         feature_extractor_state_dict = self.net.feature_extractor.state_dict()
         head_state_dict = self.head.state_dict()
         optimizer_state_dict = self.optimizer.state_dict()
-        torch.save({'backbone': feature_extractor_state_dict,
-                    'head': head_state_dict,
-                    'optimizer': optimizer_state_dict}, 
+        torch.save({"backbone": feature_extractor_state_dict,
+                    "head": head_state_dict,
+                    "optimizer": optimizer_state_dict}, 
                     file_path)
         
     def load(self, file_path):
         checkpoint = torch.load(file_path)
-        self.net.feature_extractor.load_state_dict(checkpoint['backbone'])
-        self.head.load_state_dict(checkpoint['head'])
-        self.optimizer.load_state_dict(checkpoint['optimizer'])
+        self.net.feature_extractor.load_state_dict(checkpoint["backbone"])
+        self.head.load_state_dict(checkpoint["head"])
+        self.optimizer.load_state_dict(checkpoint["optimizer"])

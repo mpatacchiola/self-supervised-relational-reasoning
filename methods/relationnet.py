@@ -79,7 +79,7 @@ class Model(torch.nn.Module):
         elif(self.aggregation=="sum"): resizer=1
         elif(self.aggregation=="mean"): resizer=1
         elif(self.aggregation=="max"): resizer=1
-        else: RuntimeError("[ERROR] aggregation type '" + str(self.aggregation) +  "' not supported, must be: cat, sum, mean.")
+        else: RuntimeError("[ERROR] aggregation type " + str(self.aggregation) +  " not supported, must be: cat, sum, mean.")
 
         self.relation_module = nn.Sequential(collections.OrderedDict([
           ("linear1",  nn.Linear(feature_extractor.feature_size*resizer, 256)),

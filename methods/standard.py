@@ -30,11 +30,11 @@ class StandardModel(torch.nn.Module):
         feature_size = feature_extractor.feature_size
         self.classifier = nn.Linear(feature_size, num_classes)
         self.ce = torch.nn.CrossEntropyLoss()
-        self.optimizer = SGD([{'params': self.feature_extractor.parameters(), 'lr': 0.1, 'momentum': 0.9},
-                              {'params': self.classifier.parameters(), 'lr': 0.1, 'momentum': 0.9}])
-        self.optimizer_lineval = Adam([{'params': self.classifier.parameters(), 'lr': 0.001}])
-        self.optimizer_finetune = Adam([{'params': self.feature_extractor.parameters(), 'lr': 0.001, 'weight_decay': 1e-5},
-                                        {'params': self.classifier.parameters(), 'lr': 0.0001, 'weight_decay': 1e-5}])
+        self.optimizer = SGD([{"params": self.feature_extractor.parameters(), "lr": 0.1, "momentum": 0.9},
+                              {"params": self.classifier.parameters(), "lr": 0.1, "momentum": 0.9}])
+        self.optimizer_lineval = Adam([{"params": self.classifier.parameters(), "lr": 0.001}])
+        self.optimizer_finetune = Adam([{"params": self.feature_extractor.parameters(), "lr": 0.001, "weight_decay": 1e-5},
+                                        {"params": self.classifier.parameters(), "lr": 0.0001, "weight_decay": 1e-5}])
                                         
     def forward(self, x, detach=False):    
         if(detach): out = self.feature_extractor(x).detach()
@@ -48,8 +48,8 @@ class StandardModel(torch.nn.Module):
         self.classifier.train()
         if(epoch==int(self.tot_epochs*0.5) or epoch==int(self.tot_epochs*0.75)):
             for i_g, g in enumerate(self.optimizer.param_groups):
-                g['lr'] *= 0.1 #divide by 10
-                print("Group[" + str(i_g) + "] learning rate: " + str(g['lr']))
+                g["lr"] *= 0.1 #divide by 10
+                print("Group[" + str(i_g) + "] learning rate: " + str(g["lr"]))
         loss_meter = AverageMeter()
         accuracy_meter = AverageMeter()
         for i, (data, target) in enumerate(train_loader):
@@ -65,7 +65,7 @@ class StandardModel(torch.nn.Module):
             accuracy = (100.0 * correct / float(len(target))) 
             accuracy_meter.update(accuracy.item(), len(target))
         elapsed_time = time.time() - start_time
-        print("Epoch [" + str(epoch) + "][" + str(i+1) + "/" + str(len(train_loader)) + "]"
+        print("Epoch [" + str(epoch) + "]"
                 + "[" + str(time.strftime("%H:%M:%S", time.gmtime(elapsed_time))) + "]"
                 + " loss: " + str(loss_meter.avg)
                 + "; acc: " + str(accuracy_meter.avg) + "%")
@@ -98,8 +98,8 @@ class StandardModel(torch.nn.Module):
 
         if(epoch==int(self.tot_epochs*0.5) or epoch==int(self.tot_epochs*0.75)):
             for i_g, g in enumerate(self.optimizer_finetune.param_groups):
-                g['lr'] *= 0.1 #divide by 10
-                print("Group[" + str(i_g) + "] learning rate: " + str(g['lr']))
+                g["lr"] *= 0.1 #divide by 10
+                print("Group[" + str(i_g) + "] learning rate: " + str(g["lr"]))
 
         minibatch_iter = tqdm.tqdm(train_loader, desc=f"(Epoch {epoch}) Minibatch")
         loss_meter = AverageMeter()
@@ -149,23 +149,23 @@ class StandardModel(torch.nn.Module):
                 if(i>=int(len(data_loader)*portion)): break
         return torch.cat(embeddings_list, dim=0).cpu().detach().numpy(), torch.cat(target_list, dim=0).cpu().detach().numpy()
         
-    def save(self, file_path='./checkpoint.dat'):
+    def save(self, file_path="./checkpoint.dat"):
         state_dict = self.classifier.state_dict()
         feature_extractor_state_dict = self.feature_extractor.state_dict()
         optimizer_state_dict = self.optimizer.state_dict()
         optimizer_lineval_state_dict = self.optimizer_lineval.state_dict()
         optimizer_finetune_state_dict = self.optimizer_finetune.state_dict()
-        torch.save({'classifier': state_dict, 
-                    'backbone': feature_extractor_state_dict,
-                    'optimizer': optimizer_state_dict,
-                    'optimizer_lineval': optimizer_lineval_state_dict,
-                    'optimizer_finetune': optimizer_finetune_state_dict}, 
+        torch.save({"classifier": state_dict, 
+                    "backbone": feature_extractor_state_dict,
+                    "optimizer": optimizer_state_dict,
+                    "optimizer_lineval": optimizer_lineval_state_dict,
+                    "optimizer_finetune": optimizer_finetune_state_dict}, 
                     file_path)
         
     def load(self, file_path):
         checkpoint = torch.load(file_path)
-        self.classifier.load_state_dict(checkpoint['classifier'])
-        self.feature_extractor.load_state_dict(checkpoint['backbone'])
-        self.optimizer.load_state_dict(checkpoint['optimizer'])
-        self.optimizer_lineval.load_state_dict(checkpoint['optimizer_lineval'])
-        self.optimizer_finetune.load_state_dict(checkpoint['optimizer_finetune'])     
+        self.classifier.load_state_dict(checkpoint["classifier"])
+        self.feature_extractor.load_state_dict(checkpoint["backbone"])
+        self.optimizer.load_state_dict(checkpoint["optimizer"])
+        self.optimizer_lineval.load_state_dict(checkpoint["optimizer_lineval"])
+        self.optimizer_finetune.load_state_dict(checkpoint["optimizer_finetune"])     

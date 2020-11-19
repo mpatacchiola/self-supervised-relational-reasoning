@@ -44,8 +44,8 @@ class Model(torch.nn.Module):
         self.feature_extractor = feature_extractor
         self.classifier = nn.Linear(feature_extractor.feature_size, 4) #the 4 rotations
         self.ce = torch.nn.CrossEntropyLoss()
-        self.optimizer = Adam([{'params': self.feature_extractor.parameters(), 'lr': 0.001},
-                               {'params': self.classifier.parameters(), 'lr': 0.001}])
+        self.optimizer = Adam([{"params": self.feature_extractor.parameters(), "lr": 0.001},
+                               {"params": self.classifier.parameters(), "lr": 0.001}])
 
     def forward(self, x, detach=False):    
         if(detach): out = self.feature_extractor(x).detach()
@@ -73,23 +73,23 @@ class Model(torch.nn.Module):
             accuracy = (100.0 * correct / float(len(target)))
             accuracy_meter.update(accuracy.item(), len(target))
         elapsed_time = time.time() - start_time
-        print("Epoch [" + str(epoch) + "][" + str(i) + "/" + str(len(train_loader)) + "]" 
+        print("Epoch [" + str(epoch) + "]" 
               + "[" + str(time.strftime("%H:%M:%S", time.gmtime(elapsed_time))) + "]"
               + " loss: " + str(loss_meter.avg) 
               + "; acc.: " + str(accuracy_meter.avg) )
         return loss_meter.avg, accuracy_meter.avg
 
-    def save(self, file_path='./checkpoint.dat'):
+    def save(self, file_path="./checkpoint.dat"):
         state_dict = self.classifier.state_dict()
         feature_extractor_state_dict = self.feature_extractor.state_dict()
         optimizer_state_dict = self.optimizer.state_dict()
-        torch.save({'classifier': state_dict, 
-                    'backbone': feature_extractor_state_dict,
-                    'optimizer': optimizer_state_dict}, 
+        torch.save({"classifier": state_dict, 
+                    "backbone": feature_extractor_state_dict,
+                    "optimizer": optimizer_state_dict}, 
                     file_path)
 
     def load(self, file_path):
         checkpoint = torch.load(file_path)
-        self.classifier.load_state_dict(checkpoint['classifier'])
-        self.feature_extractor.load_state_dict(checkpoint['backbone'])
-        self.optimizer.load_state_dict(checkpoint['optimizer'])
+        self.classifier.load_state_dict(checkpoint["classifier"])
+        self.feature_extractor.load_state_dict(checkpoint["backbone"])
+        self.optimizer.load_state_dict(checkpoint["optimizer"])

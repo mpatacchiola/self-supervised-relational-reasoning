@@ -36,8 +36,8 @@ class Encoder(nn.Module):
         if(self.feature_extractor.name=="conv4"): self.M_channels=8
         elif(self.feature_extractor.name=="resnet"): self.M_channels=feature_extractor.channels[0]
         elif(self.feature_extractor.name=="resnet_large"): self.M_channels=feature_extractor.channels[0]
-        else: raise ValueError('[ERROR][DeepInfoMax] The network type "' + str(self.feature_extractor.name) + '" is not supported!')
-        print('[INFO][DeepInfoMax] y-size: ' + str(self.y_size) + '; M-channels: ' + str(self.M_channels))
+        else: raise ValueError("[ERROR][DeepInfoMax] The network type " + str(self.feature_extractor.name) + " is not supported!")
+        print("[INFO][DeepInfoMax] y-size: " + str(self.y_size) + "; M-channels: " + str(self.M_channels))
 
     def forward_resnet_large(self, x):
         x = self.feature_extractor.conv1(x)
@@ -87,16 +87,11 @@ class Encoder(nn.Module):
         elif(self.feature_extractor.name=="resnet_large"):
             return self.forward_resnet_large(x)
         else:
-            raise ValueError('[ERROR][DeepInfoMax] The network type "' + str(self.feature_extractor.name) + '" is not supported!')
+            raise ValueError("[ERROR][DeepInfoMax] The network type " + str(self.feature_extractor.name) + " is not supported!")
        
 class GlobalDiscriminator(nn.Module):
     def __init__(self, y_size, M_channels):
         super().__init__()
-        #self.c0 = nn.Conv2d(128, 64, kernel_size=3) #original
-        #self.c1 = nn.Conv2d(64, 32, kernel_size=3)
-        #self.l0 = nn.Linear(32 * 22 * 22 + 64, 512)
-        #self.l1 = nn.Linear(512, 512)
-        #self.l2 = nn.Linear(512, 1)
         self.c0 = nn.Conv2d(M_channels, 64, kernel_size=3)
         self.c1 = nn.Conv2d(64, 32, kernel_size=3)
         self.avgpool = nn.AdaptiveAvgPool2d(16) #adaptive downsize to [b, c, 16, 16]
@@ -180,20 +175,15 @@ class DeepInfoMaxLoss(nn.Module):
         self.gamma = gamma
 
     def forward(self, y, M, M_prime):
-
         # see appendix 1A of https://arxiv.org/pdf/1808.06670.pdf
-
         if(self.beta!=0.0):
             # Expanding the vector y to have same dimensionality as M.
             # Note that expansion is done only on the height and width not on channels.
             y_expanded = y.unsqueeze(-1).unsqueeze(-1)
-            #y_expanded = y_expanded.expand(-1, -1, 26, 26)
-            #y_expanded = y_expanded.expand(-1, -1, 6, 6) #<-- This just repeat the vector
-            #y_expanded = y_expanded.expand(-1, -1, 15, 15)
             y_expanded = y_expanded.expand(-1, -1, M.shape[2], M.shape[3])
             # Concat y_expanded and M, in order to perform local discrimination.
-            #Note that channels can be different between y_expanded and M, this
-            #does not matter since concatenation is along channel dimension.
+            # Note that channels can be different between y_expanded and M, this
+            # does not matter since concatenation is along channel dimension.
             y_M = torch.cat((M, y_expanded), dim=1)
             y_M_prime = torch.cat((M_prime, y_expanded), dim=1)
             # Forward through local discriminator
@@ -231,10 +221,10 @@ class DIM(nn.Module):
         if torch.cuda.is_available(): 
              self.encoder = self.encoder.cuda()
              self.loss_fn = self.loss_fn.cuda()
-        # Training with a lowe learning rate of 1e-4 as reported
-        #by the authors in the paper. Higher values seem to lead to a NaN loss.
-        self.optimizer = Adam([{'params': self.encoder.parameters(), 'lr': 1e-4},
-                               {'params': self.loss_fn.parameters(), 'lr': 1e-4}])
+        # Training with a lower learning rate of 1e-4 as reported
+        # by the authors in the paper. Higher values seem to lead to a NaN loss.
+        self.optimizer = Adam([{"params": self.encoder.parameters(), "lr": 1e-4},
+                               {"params": self.loss_fn.parameters(), "lr": 1e-4}])
 
     def train(self, epoch, train_loader):
         start_time = time.time()
@@ -262,17 +252,17 @@ class DIM(nn.Module):
               + " loss: " + str(loss_meter.avg))
         return loss_meter.avg, -loss_meter.avg
 
-    def save(self, file_path='./checkpoint.dat'):
+    def save(self, file_path="./checkpoint.dat"):
         feature_extractor_state_dict = self.encoder.feature_extractor.state_dict()
         loss_fn_state_dict = self.loss_fn.state_dict()
         optimizer_state_dict = self.optimizer.state_dict()
-        torch.save({'backbone': feature_extractor_state_dict,
-                    'loss_fn': loss_fn_state_dict,
-                    'optimizer': optimizer_state_dict}, 
+        torch.save({"backbone": feature_extractor_state_dict,
+                    "loss_fn": loss_fn_state_dict,
+                    "optimizer": optimizer_state_dict}, 
                     file_path)
         
     def load(self, file_path):
         checkpoint = torch.load(file_path)
-        self.encoder.feature_extractor.load_state_dict(checkpoint['backbone'])
-        self.loss_fn.load_state_dict(checkpoint['loss_fn'])
-        self.optimizer.load_state_dict(checkpoint['optimizer'])
+        self.encoder.feature_extractor.load_state_dict(checkpoint["backbone"])
+        self.loss_fn.load_state_dict(checkpoint["loss_fn"])
+        self.optimizer.load_state_dict(checkpoint["optimizer"])

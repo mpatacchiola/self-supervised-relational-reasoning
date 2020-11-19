@@ -34,13 +34,13 @@ class Model(torch.nn.Module):
         self.train_transform = train_transform
         feature_size = feature_extractor.feature_size
         self.classifier = nn.Sequential(collections.OrderedDict([
-            ('linear1',  nn.Linear(feature_size, 256)),
-            ('bn1',      nn.BatchNorm1d(256)),
-            ('relu',     nn.LeakyReLU()),
-            ('linear2',  nn.Linear(256, num_clusters)),
+            ("linear1",  nn.Linear(feature_size, 256)),
+            ("bn1",      nn.BatchNorm1d(256)),
+            ("relu",     nn.LeakyReLU()),
+            ("linear2",  nn.Linear(256, num_clusters)),
         ]))
-        self.optimizer = Adam([{'params': self.feature_extractor.parameters(), 'lr': 0.001},
-                               {'params': self.classifier.parameters(), 'lr': 0.001}])
+        self.optimizer = Adam([{"params": self.feature_extractor.parameters(), "lr": 0.001},
+                               {"params": self.classifier.parameters(), "lr": 0.001}])
 
     def forward(self, x, detach=False):    
         if(detach): out = self.feature_extractor(x).detach()
@@ -54,7 +54,7 @@ class Model(torch.nn.Module):
         # npdata (np.array N * ndim): features to preprocess
         # pca (int): dim of output
         _, ndim = npdata.shape
-        npdata =  npdata.astype('float32')
+        npdata =  npdata.astype("float32")
         # Apply PCA-whitening with scipy
         # npdata = whiten(npdata)
         # Sklearn PCA with withening
@@ -70,7 +70,7 @@ class Model(torch.nn.Module):
     def run_kmeans(self, x, num_clusters):
         from sklearn.cluster import KMeans
         local_seed = np.random.randint(time.time())
-        kmeans = KMeans(n_clusters=num_clusters, random_state=local_seed, init='k-means++', n_jobs=16, max_iter=30, n_init=5).fit(x)
+        kmeans = KMeans(n_clusters=num_clusters, random_state=local_seed, init="k-means++", n_jobs=16, max_iter=30, n_init=5).fit(x)
         return torch.tensor(kmeans.labels_, dtype=torch.int64)
 
     def compute_features(self, data_loader, model, batch_size):
@@ -139,32 +139,32 @@ class Model(torch.nn.Module):
             loss_meter.update(loss.item(), len(target))
             loss.backward()
             self.optimizer.step()
-            pred = output.argmax(-1)  # Taking the mean over all of the sample we've drawn
+            pred = output.argmax(-1)
             correct = pred.eq(target.view_as(pred)).cpu().sum()
             accuracy = (100.0 * correct / float(len(target))) 
             accuracy_meter.update(accuracy.item(), len(target))
 
         elapsed_time = time.time() - start_time
-        print("Epoch [" + str(epoch) + "][" + str(i+1) + "/" + str(len(train_loader)) + "]"
+        print("Epoch [" + str(epoch) + "]"
                 + "[" + str(time.strftime("%H:%M:%S", time.gmtime(elapsed_time))) + "]"
                 + " loss: " + str(loss_meter.avg)
                 + "; acc: " + str(accuracy_meter.avg) + "%")
         return loss_meter.avg, accuracy_meter.avg
         
-    def save(self, file_path='./checkpoint.dat'):
+    def save(self, file_path="./checkpoint.dat"):
         state_dict = self.classifier.state_dict()
         feature_extractor_state_dict = self.feature_extractor.state_dict()
         optimizer_state_dict = self.optimizer.state_dict()
-        torch.save({'classifier': state_dict, 
-                    'backbone': feature_extractor_state_dict,
-                    'optimizer': optimizer_state_dict}, 
+        torch.save({"classifier": state_dict, 
+                    "backbone": feature_extractor_state_dict,
+                    "optimizer": optimizer_state_dict}, 
                     file_path)
         
     def load(self, file_path):
         checkpoint = torch.load(file_path)
-        self.classifier.load_state_dict(checkpoint['classifier'])
-        self.feature_extractor.load_state_dict(checkpoint['backbone'])
-        self.optimizer.load_state_dict(checkpoint['optimizer'])
+        self.classifier.load_state_dict(checkpoint["classifier"])
+        self.feature_extractor.load_state_dict(checkpoint["backbone"])
+        self.optimizer.load_state_dict(checkpoint["optimizer"])
 
 class ReassignedDataset(torch.utils.data.Dataset):
     def __init__(self, dataset, pseudolabels, transform=None):
@@ -219,7 +219,7 @@ class UnbalancedSampler(torch.utils.data.sampler.Sampler):
             res = np.concatenate((res, indexes))
 
         np.random.shuffle(res)
-        res = list(res.astype('int'))
+        res = list(res.astype("int"))
         if len(res) >= self.N:
             return res[:self.N]
         res += res[: (self.N - len(res))]
