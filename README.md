@@ -37,9 +37,10 @@ The backbone is stored at the end of the training and can be used for other down
 Pretrained models
 ------------------
 
-- [[download]](https://drive.google.com/file/d/1qGtrb53PlxS5MC2iuA0KBYYm3XMLwyqB/view?usp=sharing) Relational Reasoning, STL-10 (unlabeled split, 100K images, 96x96 pixels), ResNet-34, trained for 300 epochs 
-- [[download]](https://drive.google.com/file/d/1b2fDlV742ovFOyDks3evZLFVd_dQGH7T/view?usp=sharing) Relational Reasoning, CIFAR-10 (50K images, 32x32 pixels), ResNet-56, trained for 500 epochs 
-- [[download]](https://drive.google.com/file/d/12cAY8HVKyh0zZHWswu9kaDkcuyW8PMQ-/view?usp=sharing) Relational Reasoning, CIFAR-100 (50K images, 32x32 pixels), ResNet-56, trained for 500 epochs 
+- [[download]](https://drive.google.com/file/d/1hPeH76OlVg3syaInF54D-R56nxVrPGbr/view?usp=sharing) Relational Reasoning, [SlimageNet64](https://zenodo.org/record/3672132) (160K images, 64x64 pixels), ResNet-34, trained for 300 epochs [247 MB]
+- [[download]](https://drive.google.com/file/d/1qGtrb53PlxS5MC2iuA0KBYYm3XMLwyqB/view?usp=sharing) Relational Reasoning, STL-10 (unlabeled split, 100K images, 96x96 pixels), ResNet-34, trained for 300 epochs [82 MB]
+- [[download]](https://drive.google.com/file/d/1b2fDlV742ovFOyDks3evZLFVd_dQGH7T/view?usp=sharing) Relational Reasoning, CIFAR-10 (50K images, 32x32 pixels), ResNet-56, trained for 500 epochs [10 MB]
+- [[download]](https://drive.google.com/file/d/12cAY8HVKyh0zZHWswu9kaDkcuyW8PMQ-/view?usp=sharing) Relational Reasoning, CIFAR-100 (50K images, 32x32 pixels), ResNet-56, trained for 500 epochs [10 MB]
 
 Note that, the archives contain backbone, relation head, and optimizer parameters. Those have been saved in the internal dictionary as `backbone`, `relation`, and `optimizer`. To grab the backbone weights it is possible to use the standard PyTorch loader. For instance, to load the ResNet-34 pretrained on STL-10 the following script can be used:
 
@@ -51,14 +52,14 @@ checkpoint = torch.load("relationnet_stl10_resnet34_seed_1_epoch_300.tar")
 my_net.load_state_dict(checkpoint["backbone"], strict=False)
 ```
 
-The ResNet-34 model can be loaded by using the standard [Torchvision ResNet](https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py) class or the [resnet_large.py](./backbones/resnet_large.py) class in `./backbones`. Likewise, the ResNet-56 models can be loaded by using the [resnet_small.py](./backbones/resnet_small.py) class in `./backbones` but it is not compatible with the standard Torchvision ResNet class, since it only has three hyperblocks while the Torchvision class has four hyperblocks. An handy class is also the [standard.py](./methods/standard.py) in `./methods`. To load the full model (backbone + relation head) it is necessary to define a new object using the class [relationnet.py](./methods/relationnet.py) and load the checkpoint by using the internal method `load(file_path)`. 
+The ResNet-34 model can be loaded by using the standard [Torchvision ResNet](https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py) class or the [resnet_large.py](./backbones/resnet_large.py) class in `./backbones`. Likewise, the ResNet-56 models can be loaded by using the [resnet_small.py](./backbones/resnet_small.py) class in `./backbones` but it is not compatible with the standard Torchvision ResNet class, since it only has three hyperblocks while the Torchvision class has four hyperblocks. A handy class is also contained in [standard.py](./methods/standard.py) under `./methods`, this automatically load the backbone and add a linear layer on top. To load the full model (backbone + relation head) it is necessary to define a new object using the class [relationnet.py](./methods/relationnet.py) and load the checkpoint by using the internal method `load(file_path)`. 
 
 
 Code to reproduce the experiments
 --------------------------------
 
 The code in this repository allows replicating the core results of our experiments.
-All the methods are contained in the [./methods](./methods) folder. The code is modular and new methods and dataset can be easily included. Checkpoints and logs are automatically saved in `./checkpoint/METHOD_NAME/DATASET_NAME`, most of the datasets are automatically downloaded and stored in `./data` (SlimageNet64 and tiny-ImageNet need to be downloaded separately). In the paper (and appendix) we have reported the parameters for all conditions. Here is a list of the parameters used in our experiments:
+All the methods are contained in the [./methods](./methods) folder. The feature extractors (backbones) are contained in the [./backbones](./backbones) folder. The code is modular and new methods and dataset can be easily included. Checkpoints and logs are automatically saved in `./checkpoint/METHOD_NAME/DATASET_NAME`, most of the datasets are automatically downloaded and stored in `./data` (SlimageNet64 and tiny-ImageNet need to be downloaded separately). In the paper (and appendix) we have reported the parameters for all conditions. Here is a list of the parameters used in our experiments:
 
 *Methods*: `relationnet` (ours), `simclr`, `deepcluster`, `deepinfomax`, `rotationnet`, `randomweights` (lower bound), and `standard` (upper bound).
 
