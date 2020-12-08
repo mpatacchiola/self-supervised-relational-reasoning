@@ -42,7 +42,7 @@ Pretrained models
 - [[download]](https://drive.google.com/file/d/1b2fDlV742ovFOyDks3evZLFVd_dQGH7T/view?usp=sharing) Relational Reasoning, CIFAR-10 (50K images, 32x32 pixels), ResNet-56, trained for 500 epochs [10 MB]
 - [[download]](https://drive.google.com/file/d/12cAY8HVKyh0zZHWswu9kaDkcuyW8PMQ-/view?usp=sharing) Relational Reasoning, CIFAR-100 (50K images, 32x32 pixels), ResNet-56, trained for 500 epochs [10 MB]
 
-Note that, the archives contain backbone, relation head, and optimizer parameters. Those have been saved in the internal dictionary as `backbone`, `relation`, and `optimizer`. To grab the backbone weights it is possible to use the standard PyTorch loader. For instance, to load the ResNet-34 pretrained on STL-10 the following script can be used:
+Note that, ResNet34 has 4-hyperblocks (`21 M` parameters) and is larger than ResNet56 with 3-hyperblocks (`0.8 M` parameters). The archives contain backbone, relation head, and optimizer parameters. Those have been saved in the internal dictionary as `backbone`, `relation`, and `optimizer`. To grab the backbone weights it is possible to use the standard PyTorch loader. For instance, to load the ResNet-34 pretrained on STL-10 the following script can be used:
 
 ```python
 import torch
