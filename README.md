@@ -58,12 +58,11 @@ The ResNet-34 model can be loaded by using the standard [Torchvision ResNet](htt
 Code to reproduce the experiments
 --------------------------------
 
-The code in this repository allows replicating the core results of our experiments.
-All the methods are contained in the [./methods](./methods) folder. The feature extractors (backbones) are contained in the [./backbones](./backbones) folder. The code is modular and new methods and dataset can be easily included. Checkpoints and logs are automatically saved in `./checkpoint/METHOD_NAME/DATASET_NAME`, most of the datasets are automatically downloaded and stored in `./data` (SlimageNet64 and tiny-ImageNet need to be downloaded separately). In the paper (and appendix) we have reported the parameters for all conditions. Here is a list of the parameters used in our experiments:
+The code in this repository allows replicating the core results of our experiments. All the methods are contained in the [./methods](./methods) folder. The feature extractors (backbones) are contained in the [./backbones](./backbones) folder. The code is modular and new methods and dataset can be easily included. Checkpoints and logs are automatically saved in `./checkpoint/METHOD_NAME/DATASET_NAME`, most of the datasets are automatically downloaded and stored in `./data` (SlimageNet64 and tiny-ImageNet need to be downloaded separately). The tiny-ImageNet dataset needs to be downloaded [from here](http://cs231n.stanford.edu/tiny-imagenet-200.zip), then it must be unpacked and pre-processed using [this script](https://gist.github.com/mpatacchiola/3e82d5790f66bae39c77cdbabac883a6). In the paper (and appendix) we have reported the parameters for all conditions. Here is a list of the parameters used in our experiments:
 
 *Methods*: `relationnet` (ours), `simclr`, `deepcluster`, `deepinfomax`, `rotationnet`, `randomweights` (lower bound), and `standard` (upper bound).
 
-*Datasets*: `cifar10`, `cifar100`, `supercifar100`, `stl10`, `slim` ([SlimageNet64](https://zenodo.org/record/3672132)), and `tiny` (tiny-ImageNet).
+*Datasets*: `cifar10`, `cifar100`, `supercifar100`, `stl10`, `slim` ([SlimageNet64](https://zenodo.org/record/3672132)), and `tiny` ([tiny-ImageNet](http://cs231n.stanford.edu/tiny-imagenet-200.zip)).
 
 *Backbones*: `conv4`, `resnet8`, `resnet32`, `resnet56`, and `resnet34` (larger with 4 hyper-blocks).
 
