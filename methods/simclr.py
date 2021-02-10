@@ -55,6 +55,9 @@ class Model(torch.nn.Module):
         x = x[idx]
         # subtract the similarity of 1 from the numerator
         x = x.diag() / (x.sum(0) - torch.exp(torch.tensor(1 / t)))
+        # NOTE: some implementation have used the loss `torch.mean(-torch.log(x))`,
+        # but in preliminary experiments we saw that `-torch.log(x.mean())` is slightly
+        # more effective (e.g. 77% vs 76% on CIFAR-10).
         return -torch.log(x.mean())
 
     def train(self, epoch, train_loader):
