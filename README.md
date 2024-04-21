@@ -37,8 +37,8 @@ The backbone is stored at the end of the training and can be used for other down
 Pretrained models
 ------------------
 
-- [[download]](https://drive.google.com/file/d/1hPeH76OlVg3syaInF54D-R56nxVrPGbr/view?usp=sharing)[247 MB] Relational Reasoning, [SlimageNet64](https://zenodo.org/record/3672132) (160K images, 64x64 pixels), ResNet-34, trained for 300 epochs
-- [[download]](https://drive.google.com/file/d/1qGtrb53PlxS5MC2iuA0KBYYm3XMLwyqB/view?usp=sharing)[82 MB] Relational Reasoning, STL-10 (unlabeled split, 100K images, 96x96 pixels), ResNet-34, trained for 300 epochs
+- [[download]](https://drive.google.com/file/d/1kMjiUvHputKt7E_OjYIWt-RLUOszhpzN/view?usp=drive_link)[247 MB] Relational Reasoning, [SlimageNet64](https://zenodo.org/record/3672132) (160K images, 64x64 pixels), ResNet-34, trained for 300 epochs
+- [unavailable]() Relational Reasoning, STL-10 (unlabeled split, 100K images, 96x96 pixels), ResNet-34, trained for 300 epochs
 - [[download]](https://drive.google.com/file/d/1b2fDlV742ovFOyDks3evZLFVd_dQGH7T/view?usp=sharing)[10 MB] Relational Reasoning, CIFAR-10 (50K images, 32x32 pixels), ResNet-56, trained for 500 epochs
 - [[download]](https://drive.google.com/file/d/12cAY8HVKyh0zZHWswu9kaDkcuyW8PMQ-/view?usp=sharing)[10 MB] Relational Reasoning, CIFAR-100 (50K images, 32x32 pixels), ResNet-56, trained for 500 epochs
 
